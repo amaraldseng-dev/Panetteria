@@ -81,7 +81,7 @@
         </div>
 
         <!-- Filter Category Tabs -->
-        <div class="flex justify-center space-x-4 mb-12 border-b border-neutral-200 pb-4">
+        <div class="flex flex-wrap justify-center gap-4 mb-12 border-b border-neutral-200 pb-4">
             <button onclick="filterCategory('all')" id="btn-cat-all" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all">Todos</button>
             <button onclick="filterCategory('acompanhamentos')" id="btn-cat-acompanhamentos" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all">Acompanhamentos</button>
             <button onclick="filterCategory('especial')" id="btn-cat-especial" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all">Especiais</button>
@@ -131,58 +131,69 @@
     <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
         <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
-            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col h-full">
                 
                 <!-- Drawer Header -->
-                <div class="p-6 border-b border-neutral-200 flex items-center justify-between">
+                <div class="p-6 border-b border-neutral-200 flex items-center justify-between shrink-0">
                     <h3 class="font-serif text-xl">Sua Sacola de Encomenda</h3>
                     <button onclick="toggleCart()" class="text-neutral-500 hover:text-black p-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
-                <!-- Cart Items List -->
-                <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4 divide-y divide-neutral-100">
+                <!-- Scrollable Body (Itens + Form) -->
+                <div class="flex-grow overflow-y-auto p-6 space-y-6">
                     <!-- Dynamic Cart Items -->
-                </div>
+                    <div id="cart-items-container" class="space-y-4 divide-y divide-neutral-100"></div>
 
-                <!-- Cart Footer & Checkout Form -->
-                <div class="border-t border-neutral-200 p-6 bg-neutral-50 space-y-4">
-                    <div class="flex justify-between items-center text-sm font-medium">
-                        <span>Total Parcial:</span>
-                        <span id="cart-total" class="font-serif text-lg">R$ 0,00</span>
-                    </div>
+                    <!-- Checkout Form & Totals -->
+                    <div class="border-t border-neutral-200 pt-6 space-y-4">
+                        <div class="flex justify-between items-center text-sm font-medium">
+                            <span>Total Parcial:</span>
+                            <span id="cart-total" class="font-serif text-lg">R$ 0,00</span>
+                        </div>
 
-                    <!-- Customer Info Form -->
-                    <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
-                        <!-- Aviso de Fornada na Sacola -->
+                        <!-- Aviso de Fornada Suspensa (exibido automaticamente de quarta a sexta) -->
                         <div id="cart-schedule-notice" class="hidden p-3 border border-neutral-800 bg-neutral-900 text-white text-xs space-y-1">
                             <div class="flex items-center gap-1.5 font-medium text-amber-400">
-                                <span>⚡ Fornada em Produção</span>
+                                <span>⚡ Pedidos Suspensos</span>
                             </div>
-                            <p id="cart-schedule-text" class="text-[11px] text-neutral-300 leading-relaxed">
-                                Pedidos fechados no momento. Nossas pré-encomendas reabrem no sábado para a próxima fornada!
+                            <p class="text-[11px] text-neutral-300 leading-relaxed">
+                                Fornada em produção! Nossas pré-encomendas reabrem no sábado para a próxima fornada.
                             </p>
                         </div>
 
-                        <p class="text-xs font-mono uppercase text-neutral-500">Dados para Entrega / Retirada</p>
-                        <input type="text" id="cust-name" placeholder="Seu Nome Completo" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
-                        <input type="text" id="cust-address" placeholder="Endereço (Rua, Número, Bairro)" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
-                        <select id="cust-delivery" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
-                            <option value="Retirada no Atelier (Sexta)">Retirada no Atelier (Sexta)</option>
-                            <option value="Entrega em Domicílio (Taxa a calcular)">Entrega em Domicílio (Sexta)</option>
-                        </select>
+                        <!-- Customer Info Form -->
+                        <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
+                            <p class="text-xs font-mono uppercase text-neutral-500">Dados para Entrega / Retirada</p>
+                            <input type="text" id="cust-name" placeholder="Seu Nome Completo" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                            <input type="text" id="cust-address" placeholder="Endereço (Rua, Número, Bairro)" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                            <select id="cust-delivery" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                                <option value="Retirada no Atelier (Sexta)">Retirada no Atelier (Sexta)</option>
+                                <option value="Entrega em Domicílio (Taxa a calcular)">Entrega em Domicílio (Sexta)</option>
+                            </select>
 
-                        <!-- Forma de Pagamento -->
-                        <p class="text-xs font-mono uppercase text-neutral-500 pt-2">Forma de Pagamento</p>
-                        <div class="p-3 border border-neutral-300 bg-white text-xs space-y-1">
-                            <div class="flex items-center justify-between font-medium">
-                                <span>Pagamento via PIX</span>
-                                <span class="text-[10px] bg-black text-white px-2 py-0.5 rounded-full font-mono">Chave enviada no Whats</span>
+                            <!-- Forma de Pagamento -->
+                            <p class="text-xs font-mono uppercase text-neutral-500 pt-2">Forma de Pagamento</p>
+                            <div class="p-3 border border-neutral-300 bg-white text-xs space-y-1">
+                                <div class="flex items-center justify-between font-medium">
+                                    <span>Pagamento via PIX</span>
+                                    <span class="text-[10px] bg-black text-white px-2 py-0.5 rounded-full font-mono">Chave enviada no Whats</span>
+                                </div>
+                                <p class="text-[11px] text-neutral-500">O pagamento é confirmado diretamente no WhatsApp após o envio do pedido.</p>
                             </div>
-                            <p class="text-[11px] text-neutral-500">O pagamento é confirmado diretamente no WhatsApp após o envio do pedido.</p>
                         </div>
+
+                        <!-- Botão de Finalizar -->
+                        <button id="checkout-btn" onclick="sendWhatsAppOrder()" class="w-full bg-black text-white py-3.5 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors font-medium disabled:bg-neutral-300 disabled:cursor-not-allowed">
+                            Enviar Pré-encomenda via WhatsApp
+                        </button>
                     </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Atelier Settings Modal -->
     <div id="settings-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
@@ -201,7 +212,7 @@
                 </div>
                 <div>
                     <label class="block text-neutral-500 uppercase font-mono mb-1">Número do WhatsApp (com DDD)</label>
-                    <input type="text" id="setting-phone" value="5511999999999" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" placeholder="Ex: 5511988887777">
+                    <input type="text" id="setting-phone" value="5516997200215" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" placeholder="Ex: 5511988887777">
                     <p class="text-[10px] text-neutral-400 mt-1">Insira código do país + DDD + número (ex: 5511999999999)</p>
                 </div>
                 <button onclick="saveSettings()" class="w-full bg-black text-white py-2.5 uppercase tracking-widest hover:bg-neutral-800 transition-colors">
@@ -254,7 +265,7 @@
                 category: "amanteigados",
                 price: 38.00,
                 weight: "Aprox. 450g",
-                description: "Tradicional Brioche Francês - massa leve feita com manteiga e ovos caipira).",
+                description: "Tradicional Brioche Francês - massa leve feita com manteiga e ovos caipira.",
                 image: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=600"
             },
             {
@@ -299,8 +310,6 @@
         let currentFilter = 'all';
 
         // Check Weekly Schedule Status
-        // Saturday (6) to Tuesday (2) = Open. Wednesday (3) to Friday (5) = Closed for Production.
-        // Check Weekly Schedule Status
         function checkBakingSchedule() {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0 = Dom, 1 = Seg, 2 = Ter, 3 = Qua, 4 = Qui, 5 = Sex, 6 = Sáb
@@ -318,14 +327,11 @@
             const isOpen = (dayOfWeek === 6 || dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 2);
 
             if (isOpen) {
-                // Banner Topo
-                banner.className = "bg-black text-white text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
-                statusText.innerHTML = "✦ Pré-encomendas abertas para a fornada da próxima sexta-feira ✦";
+                if (banner) banner.className = "bg-black text-white text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
+                if (statusText) statusText.innerHTML = "✦ Pré-encomendas abertas para a fornada da próxima sexta-feira ✦";
                 
-                // Aviso Sacola
                 if (cartNotice) cartNotice.classList.add('hidden');
                 
-                // Botão e Campos
                 if (checkoutBtn) {
                     checkoutBtn.disabled = false;
                     checkoutBtn.innerText = "Enviar Pré-encomenda via WhatsApp";
@@ -335,14 +341,11 @@
                 if (custDelivery) custDelivery.disabled = false;
 
             } else {
-                // Banner Topo
-                banner.className = "bg-neutral-800 text-neutral-300 text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
-                statusText.innerHTML = "⚡ Fornada em produção! Pré-encomendas fechadas (Reabrem sábado)";
+                if (banner) banner.className = "bg-neutral-800 text-neutral-300 text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
+                if (statusText) statusText.innerHTML = "⚡ Fornada em produção! Pré-encomendas fechadas (Reabrem sábado)";
                 
-                // Aviso Sacola
                 if (cartNotice) cartNotice.classList.remove('hidden');
                 
-                // Botão e Campos
                 if (checkoutBtn) {
                     checkoutBtn.disabled = true;
                     checkoutBtn.innerText = "Pedidos Encerrados (Fornada em Andamento)";
@@ -388,27 +391,21 @@
         }
 
         function filterCategory(cat) {
-    currentFilter = cat;
-    
-    // Lista de todas as categorias
-    const categories = ['all', 'acompanhamentos', 'especial', 'doces', 'natal'];
-    
-    categories.forEach(c => {
-        // Tenta encontrar pelo ID padronizado ou pelo nome exato
-        const btn = document.getElementById(`btn-cat-${c}`) || document.getElementById(`btn-cat-${c.replace('nh', 'n')}`);
-        
-        if (btn) {
-            if (c === cat || (c === 'acompanhamentos' && cat === 'acompanhametos')) {
-                btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all cursor-pointer";
-            } else {
-                btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all cursor-pointer";
-            }
+            currentFilter = cat;
+            const categories = ['all', 'acompanhamentos', 'especial', 'doces', 'natal'];
+            
+            categories.forEach(c => {
+                const btn = document.getElementById(`btn-cat-${c}`) || document.getElementById(`btn-cat-${c.replace('nh', 'n')}`);
+                if (btn) {
+                    if (c === cat || (c === 'acompanhamentos' && cat === 'acompanhametos')) {
+                        btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all cursor-pointer";
+                    } else {
+                        btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all cursor-pointer";
+                    }
+                }
+            });
+            renderProducts(cat);
         }
-    });
-
-    // Filtra e desenha os produtos na tela
-    renderProducts(cat);
-}
 
         // Cart Management
         function addToCart(productId) {
@@ -504,7 +501,7 @@
             return `(${raw.substring(2,4)}) ${raw.substring(4,9)}-${raw.substring(9)}`;
         }
 
-       // WhatsApp Checkout
+        // WhatsApp Checkout
         function sendWhatsAppOrder() {
             if (cart.length === 0) {
                 alert("Sua sacola está vazia.");
@@ -541,6 +538,7 @@
             const url = `https://wa.me/${config.phone}?text=${encoded}`;
             window.open(url, '_blank');
         }
+
         // Initialize on load
         window.onload = function() {
             checkBakingSchedule();
