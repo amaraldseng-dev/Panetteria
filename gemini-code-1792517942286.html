@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KŌBO | Atelier de Panificação Artesanal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAFAFA;
+            color: #111111;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar for minimalist look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAFAFA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CCCCCC;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-black selection:text-white">
+
+    <!-- Top Announcement & Status Bar -->
+    <div id="status-banner" class="bg-black text-white text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300">
+        <span id="status-text">Verificando status da fornada...</span>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-neutral-200 bg-[#FAFAFA]/80 backdrop-blur-md sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            
+            <!-- Brand / Logo -->
+            <div class="flex items-center space-x-3">
+                <span class="text-xs uppercase tracking-widest border border-neutral-300 px-2 py-1 font-mono">酵母</span>
+                <div>
+                    <h1 id="brand-name" class="font-serif text-2xl tracking-tight font-semibold">KŌBO</h1>
+                    <p class="text-[10px] text-neutral-500 tracking-widest uppercase">Atelier de Pães • Sourdough</p>
+                </div>
+            </div>
+
+            <!-- Navigation Actions -->
+            <div class="flex items-center space-x-6">
+                <!-- Settings Button -->
+                <button onclick="toggleSettingsModal()" class="text-xs uppercase tracking-wider text-neutral-600 hover:text-black flex items-center gap-1 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span class="hidden sm:inline">Ajustes</span>
+                </button>
+
+                <!-- Cart Button -->
+                <button onclick="toggleCart()" class="relative border border-black px-4 py-2 text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all flex items-center space-x-2">
+                    <span>Sacola</span>
+                    <span id="cart-count" class="bg-black text-white px-1.5 py-0.5 text-[10px] rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero & Menu -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full">
+        
+        <!-- Hero Section -->
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <span class="text-xs font-mono uppercase tracking-widest text-neutral-500 border-b border-neutral-300 pb-1">Pré-encomenda Artesanal</span>
+            <h2 class="font-serif text-4xl sm:text-5xl font-normal tracking-tight">Pães de fermentação natural feitos sob medida.</h2>
+            <p class="text-neutral-600 text-sm leading-relaxed">
+                Produção caseira e limitada de sourdough. Pedidos abertos de sábado a terça-feira. Fornada e entrega exclusiva às sextas-feiras.
+            </p>
+        </div>
+
+        <!-- Filter Category Tabs -->
+        <div class="flex justify-center space-x-4 mb-12 border-b border-neutral-200 pb-4">
+            <button onclick="filterCategory('all')" id="btn-cat-all" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all">Todos</button>
+            <button onclick="filterCategory('sourdough')" id="btn-cat-sourdough" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all">Sourdough</button>
+            <button onclick="filterCategory('especial')" id="btn-cat-especial" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all">Especiais</button>
+            <button onclick="filterCategory('doces')" id="btn-cat-doces" class="text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all">Doces / Focaccia</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamic Products Injected via JS -->
+        </div>
+
+        <!-- Explanatory Timeline / Rules -->
+        <div class="mt-24 border-t border-neutral-200 pt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+                <span class="text-xs font-mono text-neutral-400">01 / PEDIDOS</span>
+                <h4 class="font-serif text-lg mt-1 mb-2">Sábado a Terça</h4>
+                <p class="text-xs text-neutral-600 leading-relaxed">O site fica aberto para você garantir seus pães da próxima fornada até terça-feira às 23:59.</p>
+            </div>
+            <div>
+                <span class="text-xs font-mono text-neutral-400">02 / PRODUÇÃO</span>
+                <h4 class="font-serif text-lg mt-1 mb-2">Quarta e Quinta</h4>
+                <p class="text-xs text-neutral-600 leading-relaxed">Pedidos fechados. É o momento de fermentação longa, cuidado com a massa e fornadas no ponto certo.</p>
+            </div>
+            <div>
+                <span class="text-xs font-mono text-neutral-400">03 / ENTREGA</span>
+                <h4 class="font-serif text-lg mt-1 mb-2">Sexta-feira</h4>
+                <p class="text-xs text-neutral-600 leading-relaxed">Os pães saem quentinhos do forno caseiro direto para retirada ou entrega agendada.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-neutral-200 bg-white py-12 mt-20">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-500 space-y-4 md:space-y-0">
+            <div>
+                <p id="footer-brand" class="font-serif text-black text-sm">KŌBO Atelier</p>
+                <p>Feito artesanalmente em casa. Sourdough & Fermentação Lenta.</p>
+            </div>
+            <div class="flex space-x-6 uppercase tracking-widest">
+                <span>WhatsApp: <strong id="footer-phone" class="text-black font-normal">(11) 99999-9999</strong></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Slide-over Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                
+                <!-- Drawer Header -->
+                <div class="p-6 border-b border-neutral-200 flex items-center justify-between">
+                    <h3 class="font-serif text-xl">Sua Sacola de Encomenda</h3>
+                    <button onclick="toggleCart()" class="text-neutral-500 hover:text-black p-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4 divide-y divide-neutral-100">
+                    <!-- Dynamic Cart Items -->
+                </div>
+
+                <!-- Cart Footer & Checkout Form -->
+                <div class="border-t border-neutral-200 p-6 bg-neutral-50 space-y-4">
+                    <div class="flex justify-between items-center text-sm font-medium">
+                        <span>Total Parcial:</span>
+                        <span id="cart-total" class="font-serif text-lg">R$ 0,00</span>
+                    </div>
+
+                    <!-- Customer Info Form -->
+                    <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
+                        <p class="text-xs font-mono uppercase text-neutral-500">Dados para Entrega / Retirada</p>
+                        <input type="text" id="cust-name" placeholder="Seu Nome Completo" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                        <input type="text" id="cust-address" placeholder="Endereço (Rua, Número, Bairro)" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                        <select id="cust-delivery" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                            <option value="Retirada no Atelier (Sexta)">Retirada no Atelier (Sexta)</option>
+                            <option value="Entrega em Domicílio (Taxa a calcular)">Entrega em Domicílio (Sexta)</option>
+                        </select>
+                    </div>
+
+                    <button id="checkout-btn" onclick="sendWhatsAppOrder()" class="w-full bg-black text-white py-3 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors font-medium disabled:bg-neutral-300 disabled:cursor-not-allowed">
+                        Enviar Pré-encomenda via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Atelier Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="toggleSettingsModal()"></div>
+        <div class="bg-white w-full max-w-md rounded-none shadow-2xl relative z-10 p-6 space-y-6 border border-neutral-200">
+            <div class="flex justify-between items-center border-b border-neutral-200 pb-4">
+                <h3 class="font-serif text-xl">Configurações do Atelier</h3>
+                <button onclick="toggleSettingsModal()" class="text-neutral-500 hover:text-black">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-neutral-500 uppercase font-mono mb-1">Nome da Padaria / Atelier</label>
+                    <input type="text" id="setting-name" value="KŌBO" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
+                </div>
+                <div>
+                    <label class="block text-neutral-500 uppercase font-mono mb-1">Número do WhatsApp (com DDD)</label>
+                    <input type="text" id="setting-phone" value="5511999999999" class="w-full border border-neutral-300 p-2.5 focus:outline-none focus:border-black" placeholder="Ex: 5511988887777">
+                    <p class="text-[10px] text-neutral-400 mt-1">Insira código do país + DDD + número (ex: 5511999999999)</p>
+                </div>
+                <button onclick="saveSettings()" class="w-full bg-black text-white py-2.5 uppercase tracking-widest hover:bg-neutral-800 transition-colors">
+                    Salvar Alterações
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Atelier Config State
+        let config = {
+            name: "KŌBO",
+            phone: "5511999999999"
+        };
+
+        // Products Catalog
+        const products = [
+            {
+                id: 1,
+                name: "Sourdough Tradicional (Campanha)",
+                category: "sourdough",
+                price: 32.00,
+                weight: "Aprox. 800g",
+                description: "Farinha orgânica, fermentação natural de 36 horas, casca rústica e miolo alveolado.",
+                image: "https://images.unsplash.com/photo-1589367920969-ab8e050bbc0f?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 2,
+                name: "Sourdough de Castanha do Pará & Cacau",
+                category: "sourdough",
+                price: 38.00,
+                weight: "Aprox. 750g",
+                description: "Notas sutis de cacau orgânico com pedaços generosos de castanha do pará.",
+                image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 3,
+                name: "Focaccia de Alecrim & Flor de Sal",
+                category: "especial",
+                price: 35.00,
+                weight: "Aprox. 600g",
+                description: "Azeite extravirgem, alecrim fresco colhido no dia e flor de sal Maldon.",
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 4,
+                name: "Pão de Forma Sourdough Integral",
+                category: "sourdough",
+                price: 28.00,
+                weight: "Aprox. 650g",
+                description: "Macio, rico em fibras e sementes germinadas (girassol, linhaça e gengibre).",
+                image: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 5,
+                name: "Brioche Trançado de Mel & Manteiga",
+                category: "doces",
+                price: 42.00,
+                weight: "Aprox. 500g",
+                description: "Massa rica com manteiga artesanal e toque de mel silvestre.",
+                image: "https://images.unsplash.com/photo-1621236378699-8599facae684?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 6,
+                name: "Ciabatta Rústica de Fermentação Longa",
+                category: "especial",
+                price: 24.00,
+                weight: "Aprox. 450g",
+                description: "Miolo extremamente aerado, casca fina e crocante.",
+                image: "https://images.unsplash.com/photo-1598373182133-52452f7691ef?auto=format&fit=crop&q=80&w=600"
+            }
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+
+        // Check Weekly Schedule Status
+        // Saturday (6) to Tuesday (2) = Open. Wednesday (3) to Friday (5) = Closed for Production.
+        function checkBakingSchedule() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 = Dom, 1 = Seg, 2 = Ter, 3 = Qua, 4 = Qui, 5 = Sex, 6 = Sáb
+            
+            const banner = document.getElementById('status-banner');
+            const statusText = document.getElementById('status-text');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            // Logic: Open on Sat (6), Sun (0), Mon (1), Tue (2).
+            // Closed on Wed (3), Thu (4), Fri (5).
+            const isOpen = (dayOfWeek === 6 || dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 2);
+
+            if (isOpen) {
+                banner.className = "bg-black text-white text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
+                statusText.innerHTML = "✦ Pré-encomendas abertas para a fornada da próxima sexta-feira ✦";
+                if(checkoutBtn) {
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerText = "Enviar Pré-encomenda via WhatsApp";
+                }
+            } else {
+                banner.className = "bg-neutral-800 text-neutral-300 text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
+                statusText.innerHTML = "⚡ Fornada em produção! Pré-encomendas fechadas (Reabrem sábado)";
+                if(checkoutBtn) {
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.innerText = "Pedidos Encerrados (Fornada em Andamento)";
+                }
+            }
+        }
+
+        // Render Product Catalog
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-neutral-200 flex flex-col justify-between group overflow-hidden";
+                card.innerHTML = `
+                    <div>
+                        <div class="overflow-hidden bg-neutral-100 aspect-[4/3]">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="p-6 space-y-2">
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] font-mono uppercase tracking-widest text-neutral-500 border border-neutral-200 px-2 py-0.5">${product.weight}</span>
+                                <span class="font-serif text-lg">R$ ${product.price.toFixed(2).replace('.', ',')}</span>
+                            </div>
+                            <h3 class="font-serif text-xl font-normal">${product.name}</h3>
+                            <p class="text-xs text-neutral-600 leading-relaxed">${product.description}</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="addToCart(${product.id})" class="w-full border border-black py-3 text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all">
+                            Adicionar à Sacola
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            ['all', 'sourdough', 'especial', 'doces'].forEach(c => {
+                const btn = document.getElementById(`btn-cat-${c}`);
+                if(c === cat) {
+                    btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all";
+                } else {
+                    btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all";
+                }
+            });
+            renderProducts(cat);
+        }
+
+        // Cart Management
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            toggleCart();
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = cart.find(p => p.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(p => p.id !== productId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            countEl.innerText = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-12">Sua sacola está vazia.</p>`;
+                totalEl.innerText = "R$ 0,00";
+                return;
+            }
+
+            container.innerHTML = '';
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                totalPrice += item.price * item.quantity;
+                const div = document.createElement('div');
+                div.className = "py-4 flex items-center justify-between";
+                div.innerHTML = `
+                    <div class="pr-4">
+                        <h4 class="font-serif text-sm">${item.name}</h4>
+                        <span class="text-xs text-neutral-500">R$ ${item.price.toFixed(2).replace('.', ',')} un.</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center border border-neutral-300">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="px-2.5 py-1 text-xs hover:bg-neutral-100">-</button>
+                            <span class="px-2 text-xs font-mono">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="px-2.5 py-1 text-xs hover:bg-neutral-100">+</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            totalEl.innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function toggleSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function saveSettings() {
+            const newName = document.getElementById('setting-name').value;
+            const newPhone = document.getElementById('setting-phone').value;
+
+            if(newName) config.name = newName;
+            if(newPhone) config.phone = newPhone;
+
+            document.getElementById('brand-name').innerText = config.name;
+            document.getElementById('footer-brand').innerText = config.name + " Atelier";
+            document.getElementById('footer-phone').innerText = formatPhoneDisplay(config.phone);
+
+            toggleSettingsModal();
+        }
+
+        function formatPhoneDisplay(raw) {
+            return `(${raw.substring(2,4)}) ${raw.substring(4,9)}-${raw.substring(9)}`;
+        }
+
+        // WhatsApp Checkout
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert("Sua sacola está vazia.");
+                return;
+            }
+
+            const name = document.getElementById('cust-name').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            const deliveryType = document.getElementById('cust-delivery').value;
+
+            if (!name || !address) {
+                alert("Por favor, preencha seu Nome e Endereço para a entrega.");
+                return;
+            }
+
+            let message = `*NOVA PRÉ-ENCOMENDA - ${config.name}*\n\n`;
+            message += `👤 *Cliente:* ${name}\n`;
+            message += `📍 *Endereço:* ${address}\n`;
+            message += `🚚 *Modalidade:* ${deliveryType}\n\n`;
+            message += `🍞 *Itens do Pedido:*\n`;
+
+            let total = 0;
+            cart.forEach(item => {
+                const sub = item.price * item.quantity;
+                total += sub;
+                message += `• ${item.quantity}x ${item.name} - R$ ${sub.toFixed(2).replace('.', ',')}\n`;
+            });
+
+            message += `\n💰 *Total Geral:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
+            message += `_Pedido gerado via site de pré-encomenda._`;
+
+            const encoded = encodeURIComponent(message);
+            const url = `https://wa.me/${config.phone}?text=${encoded}`;
+            window.open(url, '_blank');
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            checkBakingSchedule();
+            renderProducts('all');
+        }
+    </script>
+</body>
+</html>
