@@ -154,7 +154,17 @@
                     </div>
 
                     <!-- Customer Info Form -->
-                   <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
+                    <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
+                        <!-- Aviso de Fornada na Sacola -->
+                        <div id="cart-schedule-notice" class="hidden p-3 border border-neutral-800 bg-neutral-900 text-white text-xs space-y-1">
+                            <div class="flex items-center gap-1.5 font-medium text-amber-400">
+                                <span>⚡ Fornada em Produção</span>
+                            </div>
+                            <p id="cart-schedule-text" class="text-[11px] text-neutral-300 leading-relaxed">
+                                Pedidos fechados no momento. Nossas pré-encomendas reabrem no sábado para a próxima fornada!
+                            </p>
+                        </div>
+
                         <p class="text-xs font-mono uppercase text-neutral-500">Dados para Entrega / Retirada</p>
                         <input type="text" id="cust-name" placeholder="Seu Nome Completo" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
                         <input type="text" id="cust-address" placeholder="Endereço (Rua, Número, Bairro)" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
@@ -290,6 +300,7 @@
 
         // Check Weekly Schedule Status
         // Saturday (6) to Tuesday (2) = Open. Wednesday (3) to Friday (5) = Closed for Production.
+        // Check Weekly Schedule Status
         function checkBakingSchedule() {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0 = Dom, 1 = Seg, 2 = Ter, 3 = Qua, 4 = Qui, 5 = Sex, 6 = Sáb
@@ -297,25 +308,48 @@
             const banner = document.getElementById('status-banner');
             const statusText = document.getElementById('status-text');
             const checkoutBtn = document.getElementById('checkout-btn');
+            const cartNotice = document.getElementById('cart-schedule-notice');
             
-            // Logic: Open on Sat (6), Sun (0), Mon (1), Tue (2).
-            // Closed on Wed (3), Thu (4), Fri (5).
+            const custName = document.getElementById('cust-name');
+            const custAddress = document.getElementById('cust-address');
+            const custDelivery = document.getElementById('cust-delivery');
+            
+            // Aberto de Sábado (6) a Terça (2)
             const isOpen = (dayOfWeek === 6 || dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 2);
 
             if (isOpen) {
+                // Banner Topo
                 banner.className = "bg-black text-white text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
                 statusText.innerHTML = "✦ Pré-encomendas abertas para a fornada da próxima sexta-feira ✦";
-                if(checkoutBtn) {
+                
+                // Aviso Sacola
+                if (cartNotice) cartNotice.classList.add('hidden');
+                
+                // Botão e Campos
+                if (checkoutBtn) {
                     checkoutBtn.disabled = false;
                     checkoutBtn.innerText = "Enviar Pré-encomenda via WhatsApp";
                 }
+                if (custName) custName.disabled = false;
+                if (custAddress) custAddress.disabled = false;
+                if (custDelivery) custDelivery.disabled = false;
+
             } else {
+                // Banner Topo
                 banner.className = "bg-neutral-800 text-neutral-300 text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
                 statusText.innerHTML = "⚡ Fornada em produção! Pré-encomendas fechadas (Reabrem sábado)";
-                if(checkoutBtn) {
+                
+                // Aviso Sacola
+                if (cartNotice) cartNotice.classList.remove('hidden');
+                
+                // Botão e Campos
+                if (checkoutBtn) {
                     checkoutBtn.disabled = true;
                     checkoutBtn.innerText = "Pedidos Encerrados (Fornada em Andamento)";
                 }
+                if (custName) custName.disabled = true;
+                if (custAddress) custAddress.disabled = true;
+                if (custDelivery) custDelivery.disabled = true;
             }
         }
 
