@@ -352,17 +352,27 @@
         }
 
         function filterCategory(cat) {
-            currentFilter = cat;
-            ['all', 'acompanhamentos', 'especial', 'doces', 'natal'].forEach(c => {
-                const btn = document.getElementById(`btn-cat-${c}`);
-                if(c === cat) {
-                    btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all";
-                } else {
-                    btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all";
-                }
-            });
-            renderProducts(cat);
+    currentFilter = cat;
+    
+    // Lista de todas as categorias
+    const categories = ['all', 'acompanhamentos', 'especial', 'doces', 'natal'];
+    
+    categories.forEach(c => {
+        // Tenta encontrar pelo ID padronizado ou pelo nome exato
+        const btn = document.getElementById(`btn-cat-${c}`) || document.getElementById(`btn-cat-${c.replace('nh', 'n')}`);
+        
+        if (btn) {
+            if (c === cat || (c === 'acompanhamentos' && cat === 'acompanhametos')) {
+                btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-black font-medium transition-all cursor-pointer";
+            } else {
+                btn.className = "text-xs uppercase tracking-widest pb-1 border-b-2 border-transparent text-neutral-500 hover:text-black transition-all cursor-pointer";
+            }
         }
+    });
+
+    // Filtra e desenha os produtos na tela
+    renderProducts(cat);
+}
 
         // Cart Management
         function addToCart(productId) {
