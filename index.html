@@ -470,7 +470,7 @@
             return `(${raw.substring(2,4)}) ${raw.substring(4,9)}-${raw.substring(9)}`;
         }
 
-        // WhatsApp Checkout
+       // WhatsApp Checkout
         function sendWhatsAppOrder() {
             if (cart.length === 0) {
                 alert("Sua sacola está vazia.");
@@ -489,7 +489,8 @@
             let message = `*NOVA PRÉ-ENCOMENDA - ${config.name}*\n\n`;
             message += `👤 *Cliente:* ${name}\n`;
             message += `📍 *Endereço:* ${address}\n`;
-            message += `🚚 *Modalidade:* ${deliveryType}\n\n`;
+            message += `🚚 *Modalidade:* ${deliveryType}\n`;
+            message += `💳 *Forma de Pagamento:* PIX\n\n`;
             message += `🍞 *Itens do Pedido:*\n`;
 
             let total = 0;
@@ -499,14 +500,13 @@
                 message += `• ${item.quantity}x ${item.name} - R$ ${sub.toFixed(2).replace('.', ',')}\n`;
             });
 
-            message += `\n💰 *Total Geral:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
-            message += `_Pedido gerado via site de pré-encomenda._`;
+            message += `\n💰 *Total Geral:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
+            message += `_Olá! Gostaria de confirmar meu pedido e receber a chave PIX para pagamento._`;
 
             const encoded = encodeURIComponent(message);
             const url = `https://wa.me/${config.phone}?text=${encoded}`;
             window.open(url, '_blank');
         }
-
         // Initialize on load
         window.onload = function() {
             checkBakingSchedule();
