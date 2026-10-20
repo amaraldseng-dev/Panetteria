@@ -154,7 +154,7 @@
                     </div>
 
                     <!-- Customer Info Form -->
-                    <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
+                   <div id="checkout-form" class="space-y-3 pt-2 border-t border-neutral-200">
                         <p class="text-xs font-mono uppercase text-neutral-500">Dados para Entrega / Retirada</p>
                         <input type="text" id="cust-name" placeholder="Seu Nome Completo" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
                         <input type="text" id="cust-address" placeholder="Endereço (Rua, Número, Bairro)" class="w-full text-xs bg-white border border-neutral-300 p-2.5 focus:outline-none focus:border-black">
@@ -162,15 +162,17 @@
                             <option value="Retirada no Atelier (Sexta)">Retirada no Atelier (Sexta)</option>
                             <option value="Entrega em Domicílio (Taxa a calcular)">Entrega em Domicílio (Sexta)</option>
                         </select>
-                    </div>
 
-                    <button id="checkout-btn" onclick="sendWhatsAppOrder()" class="w-full bg-black text-white py-3 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors font-medium disabled:bg-neutral-300 disabled:cursor-not-allowed">
-                        Enviar Pré-encomenda via WhatsApp
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <!-- Forma de Pagamento -->
+                        <p class="text-xs font-mono uppercase text-neutral-500 pt-2">Forma de Pagamento</p>
+                        <div class="p-3 border border-neutral-300 bg-white text-xs space-y-1">
+                            <div class="flex items-center justify-between font-medium">
+                                <span>Pagamento via PIX</span>
+                                <span class="text-[10px] bg-black text-white px-2 py-0.5 rounded-full font-mono">Chave enviada no Whats</span>
+                            </div>
+                            <p class="text-[11px] text-neutral-500">O pagamento é confirmado diretamente no WhatsApp após o envio do pedido.</p>
+                        </div>
+                    </div>
 
     <!-- Atelier Settings Modal -->
     <div id="settings-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
