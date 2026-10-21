@@ -173,16 +173,21 @@
                                 <option value="Entrega em Domicílio (Taxa a calcular)">Entrega em Domicílio (Sexta)</option>
                             </select>
 
-                            <!-- Forma de Pagamento -->
+                            
+                           <!-- Forma de Pagamento (PIX) -->
                             <p class="text-xs font-mono uppercase text-neutral-500 pt-2">Forma de Pagamento</p>
-                            <div class="p-3 border border-neutral-300 bg-white text-xs space-y-1">
+                            <div class="p-3.5 border border-neutral-300 bg-neutral-50 text-xs space-y-2">
                                 <div class="flex items-center justify-between font-medium">
                                     <span>Pagamento via PIX</span>
-                                    <span class="text-[10px] bg-black text-white px-2 py-0.5 rounded-full font-mono">Chave enviada no Whats</span>
+                                    <span class="text-[10px] bg-black text-white px-2 py-0.5 rounded-full font-mono">Chave CPF</span>
                                 </div>
-                                <p class="text-[11px] text-neutral-500">O pagamento é confirmado diretamente no WhatsApp após o envio do pedido.</p>
+                                <div class="bg-white border border-neutral-200 p-2 font-mono text-center text-sm font-semibold tracking-wider select-all">
+                                    35517542840
+                                </div>
+                                <p class="text-[11px] text-neutral-500 leading-relaxed">
+                                    Envie o comprovante junto com a confirmação do pedido no WhatsApp.
+                                </p>
                             </div>
-                        </div>
 
                         <!-- Botão de Finalizar -->
                         <button id="checkout-btn" onclick="sendWhatsAppOrder()" class="w-full bg-black text-white py-3.5 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors font-medium disabled:bg-neutral-300 disabled:cursor-not-allowed">
@@ -522,7 +527,7 @@
             message += `👤 *Cliente:* ${name}\n`;
             message += `📍 *Endereço:* ${address}\n`;
             message += `🚚 *Modalidade:* ${deliveryType}\n`;
-            message += `💳 *Forma de Pagamento:* PIX\n\n`;
+            message += `💳 *Forma de Pagamento:* PIX (Chave CPF: 35517542840)\n\n`;
             message += `🍞 *Itens do Pedido:*\n`;
 
             let total = 0;
