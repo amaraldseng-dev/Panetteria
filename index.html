@@ -42,13 +42,47 @@
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             
             <!-- Brand / Logo -->
-            <div class="flex items-center space-x-3">
-                <span class="text-xs uppercase tracking-widest border border-neutral-300 px-2 py-1 font-mono">酵母</span>
-                <div>
-                    <h1 id="brand-name" class="font-serif text-2xl tracking-tight font-semibold">DOMENICO PANETTERIA</h1>
+            <a href="#" class="flex items-center gap-3 group">
+                <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-black transition-transform duration-300 group-hover:scale-105">
+                    <!-- Circulo Externo Rústico -->
+                    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="2.5" stroke-dasharray="90 2 30 2" />
+                    
+                    <!-- Texto Curvo Superior -->
+                    <path id="text-path-top" d="M 12 50 A 38 38 0 0 1 88 50" fill="none" />
+                    <text font-family="'Playfair Display', serif" font-size="6.5" font-weight="600" letter-spacing="1.2" fill="currentColor">
+                        <textPath href="#text-path-top" startOffset="50%" text-anchor="middle">
+                            FERMENTAÇÃO NATURAL • ATELIER
+                        </textPath>
+                    </text>
+
+                    <!-- Ramos Laterais de Trigo -->
+                    <path d="M 18 52 C 16 46, 14 38, 22 30" stroke="currentColor" stroke-width="1.2" fill="none" />
+                    <path d="M 19 46 C 15 45, 13 42, 14 40 C 17 41, 19 43, 19 46 Z" fill="currentColor" />
+                    <path d="M 17 40 C 13 39, 12 36, 13 34 C 16 35, 17 37, 17 40 Z" fill="currentColor" />
+                    
+                    <path d="M 82 52 C 84 46, 86 38, 78 30" stroke="currentColor" stroke-width="1.2" fill="none" />
+                    <path d="M 81 46 C 85 45, 87 42, 86 40 C 83 41, 81 43, 81 46 Z" fill="currentColor" />
+                    <path d="M 83 40 C 87 39, 88 36, 87 34 C 84 35, 83 37, 83 40 Z" fill="currentColor" />
+
+                    <!-- Monograma DP Central -->
+                    <text x="43" y="52" font-family="'Playfair Display', serif" font-size="28" font-weight="700" fill="currentColor" text-anchor="middle">D</text>
+                    <text x="56" y="55" font-family="'Playfair Display', serif" font-size="24" font-weight="400" font-style="italic" fill="currentColor" text-anchor="middle">P</text>
+
+                    <!-- Nome DOMENICO PANETTERIA -->
+                    <text x="50" y="69" font-family="'Playfair Display', serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="currentColor" text-anchor="middle">DOMENICO</text>
+                    <text x="50" y="76" font-family="'Inter', sans-serif" font-size="5" font-weight="500" letter-spacing="2" fill="currentColor" text-anchor="middle">PANETTERIA</text>
+                    
+                    <!-- Ramos Inferiores -->
+                    <path d="M 30 84 C 40 88, 60 88, 70 84" stroke="currentColor" stroke-width="1.2" fill="none" />
+                    <path d="M 35 84 C 31 82, 30 79, 33 78 C 35 80, 36 82, 35 84 Z" fill="currentColor" />
+                    <path d="M 65 84 C 69 82, 70 79, 67 78 C 65 80, 64 82, 65 84 Z" fill="currentColor" />
+                </svg>
+
+                <div class="hidden sm:block">
+                    <h1 id="brand-name" class="font-serif text-xl tracking-tight font-semibold">DOMENICO PANETTERIA</h1>
                     <p class="text-[10px] text-neutral-500 tracking-widest uppercase">Atelier de Pães • Fermentação Natural</p>
                 </div>
-            </div>
+            </a>
 
             <!-- Navigation Actions -->
             <div class="flex items-center space-x-6">
