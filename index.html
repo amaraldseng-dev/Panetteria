@@ -493,7 +493,7 @@
             currentFilter = cat;
             const categories = ['all', 'focaccia', 'acompanhamentos', 'natal'];
             
-            categories.forEach(c => {
+           categories.forEach(c => {
                 const btn = document.getElementById(`btn-cat-${c}`);
                 if (btn) {
                     if (c === cat) {
@@ -504,6 +504,7 @@
                 }
             });
             renderProducts(cat);
+        } // <--- Faltava fechar esta função e todo o resto abaixo dela!
             
 
         // Cart Management
