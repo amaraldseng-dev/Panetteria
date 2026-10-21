@@ -313,6 +313,7 @@
         function checkBakingSchedule() {
             const now = new Date();
             const dayOfWeek = now.getDay(); // 0 = Dom, 1 = Seg, 2 = Ter, 3 = Qua, 4 = Qui, 5 = Sex, 6 = Sáb
+            const currentHour = now.getHours(); // Hora atual (0-23)
             
             const banner = document.getElementById('status-banner');
             const statusText = document.getElementById('status-text');
@@ -323,8 +324,8 @@
             const custAddress = document.getElementById('cust-address');
             const custDelivery = document.getElementById('cust-delivery');
             
-            // Aberto de Sábado (6) a Terça (2)
-            const isOpen = (dayOfWeek === 6 || dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 2);
+            // Aberto no Sábado (6), Domingo (0), Segunda (1) e Terça (2) até 19:59 (fecha às 20:00)
+            const isOpen = (dayOfWeek === 6 || dayOfWeek === 0 || dayOfWeek === 1 || (dayOfWeek === 2 && currentHour < 20));
 
             if (isOpen) {
                 if (banner) banner.className = "bg-black text-white text-xs tracking-widest uppercase py-2.5 px-4 text-center font-medium transition-all duration-300";
